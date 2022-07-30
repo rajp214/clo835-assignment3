@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontenddeploy
+  labels:
+    app.kubernetes.io/name: guestbook
+    app.kubernetes.io/component: frontenddeploy
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: guestbook
+      app.kubernetes.io/component: frontenddeploy
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: guestbook
+        app.kubernetes.io/component: frontenddeploy
+    spec:
+      containers:
+      - name: guestbook
+        image: paulczar/gb-frontend:v5
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        ports:
+        - containerPort: 80
